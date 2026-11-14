@@ -40,6 +40,14 @@ function parsearJsonCredenciales(texto) {
 }
 
 function cargarCredenciales(cfg) {
+  // Opción recomendada para hosting: el JSON codificado en base64 (sin comillas ni saltos de línea)
+  if (process.env.FIREBASE_SERVICE_ACCOUNT_BASE64) {
+    try {
+      return parsearJsonCredenciales(Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_BASE64.trim(), 'base64').toString('utf8'));
+    } catch (e) {
+      throw new Error(`FIREBASE_SERVICE_ACCOUNT_BASE64 no es válido (${e.message})`);
+    }
+  }
   if (cfg.serviceAccountJson) {
     try {
       return parsearJsonCredenciales(cfg.serviceAccountJson);
