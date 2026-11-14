@@ -24,6 +24,10 @@ function parsearJsonCredenciales(texto) {
     raw = raw.slice(1, -1).trim();
   }
   if (raw.startsWith('"{')) raw = JSON.parse(raw); // JSON serializado como string
+  // Si quedaron comillas u otros caracteres sueltos alrededor, usar sólo el objeto { ... }
+  const ini = raw.indexOf('{');
+  const fin = raw.lastIndexOf('}');
+  if (ini > 0 || (fin !== -1 && fin < raw.length - 1)) raw = raw.slice(ini, fin + 1);
   let k;
   try {
     k = JSON.parse(raw);
