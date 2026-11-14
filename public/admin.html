@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel de Administración Municipal</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Panel de Administración Municipal<small>Atención de quejas y reportes ciudadanos</small></h1>
+    <div id="sesion" class="oculto">
+      <span id="sesion-usuario"></span> ·
+      <a href="#" id="btn-salir">Cerrar sesión</a>
+    </div>
+  </header>
+
+  <!-- Login -->
+  <main class="contenedor angosto" id="vista-login">
+    <section class="tarjeta" style="max-width:420px;margin:40px auto">
+      <h2>Ingreso del personal municipal</h2>
+      <div id="login-error" class="alerta error oculto" role="alert"></div>
+      <form id="form-login">
+        <div class="campo"><label for="usuario">Usuario</label><input id="usuario" autocomplete="username" required /></div>
+        <div class="campo"><label for="clave">Contraseña</label><input id="clave" type="password" autocomplete="current-password" required /></div>
+        <button class="btn" type="submit">Ingresar</button>
+      </form>
+      <p class="ayuda" style="margin-top:14px"><a href="/">← Volver al portal ciudadano</a></p>
+    </section>
+  </main>
+
+  <!-- Panel -->
+  <main class="contenedor oculto" id="vista-panel">
+    <div id="servicios-aviso" class="alerta error oculto"></div>
+
+    <div class="kpis" id="kpis"></div>
+    <div class="graficas" id="graficas"></div>
+
+    <section class="tarjeta">
+      <h2>Reportes registrados</h2>
+      <form id="form-filtros" class="filtros">
+        <div><label for="f-q">Buscar</label><input id="f-q" placeholder="Folio, texto, palabra clave…" /></div>
+        <div><label for="f-estado">Estado</label><select id="f-estado"><option value="">Todos</option><option value="abiertos">Abiertos (sin resolver)</option></select></div>
+        <div><label for="f-prioridad">Prioridad</label><select id="f-prioridad"><option value="">Todas</option><option>Sin asignar</option></select></div>
+        <div><label for="f-categoria">Categoría</label><select id="f-categoria"><option value="">Todas</option></select></div>
+        <div><label for="f-area">Área</label><select id="f-area"><option value="">Todas</option></select></div>
+        <div><label for="f-zona">Zona</label><input id="f-zona" inputmode="numeric" maxlength="2" placeholder="Todas" /></div>
+        <div><label for="f-desde">Desde</label><input id="f-desde" type="date" /></div>
+        <div><label for="f-hasta">Hasta</label><input id="f-hasta" type="date" /></div>
+        <div><label for="f-orden">Ordenar por</label>
+          <select id="f-orden"><option value="prioridad">Prioridad</option><option value="recientes">Más recientes</option><option value="antiguos">Más antiguos</option></select></div>
+        <div style="display:flex;gap:6px"><button class="btn peq" type="submit">Filtrar</button><button class="btn peq secundario" type="button" id="btn-limpiar">Limpiar</button></div>
+      </form>
+      <p class="ayuda" id="conteo" style="margin-top:12px"></p>
+      <div id="lista-error" class="alerta error oculto"></div>
+      <div class="tabla-wrap">
+        <table>
+          <thead><tr><th>Folio / fecha</th><th>Prioridad</th><th>Reporte</th><th>Ubicación</th><th>Área de atención</th><th>Estado</th></tr></thead>
+          <tbody id="tabla"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal-fondo oculto" role="dialog" aria-modal="true">
+    <div class="modal" id="modal-contenido"></div>
+  </div>
+
+  <script src="js/comun.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

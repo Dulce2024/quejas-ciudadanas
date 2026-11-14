@@ -1,0 +1,6 @@
+node_modules/
+.env
+*.log
+# Credenciales de Firebase: NUNCA subirlas al repositorio
+serviceAccountKey*.json
+firebase-*.json

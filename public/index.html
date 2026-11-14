@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portal de Atención Ciudadana</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Municipalidad — Portal de Atención Ciudadana<small>Reportá problemas de tu comunidad</small></h1>
+    <a href="admin.html">Acceso personal municipal</a>
+  </header>
+
+  <main class="contenedor angosto">
+    <!-- Formulario -->
+    <section class="tarjeta" id="seccion-form">
+      <h2>Ingresar queja o reporte</h2>
+      <p class="ayuda">Los campos marcados como opcionales pueden quedar vacíos. Necesitamos al menos un medio de contacto para darte seguimiento.</p>
+
+      <div id="alerta-form" class="alerta error oculto" role="alert"></div>
+
+      <form id="form-reporte" novalidate>
+        <div class="grid-2">
+          <div class="campo" data-campo="nombre">
+            <label for="nombre">Nombre completo</label>
+            <input id="nombre" name="nombre" maxlength="80" autocomplete="name" required />
+            <div class="error-campo"></div>
+          </div>
+          <div class="campo" data-campo="categoria">
+            <label for="categoria">Tipo de problema</label>
+            <select id="categoria" name="categoria" required>
+              <option value="">Seleccioná…</option>
+            </select>
+            <div class="error-campo"></div>
+          </div>
+          <div class="campo" data-campo="correo">
+            <label for="correo">Correo electrónico <span class="opcional">(opcional)</span></label>
+            <input id="correo" name="correo" type="email" maxlength="120" autocomplete="email" />
+            <div class="error-campo"></div>
+          </div>
+          <div class="campo" data-campo="telefono">
+            <label for="telefono">Teléfono <span class="opcional">(opcional)</span></label>
+            <input id="telefono" name="telefono" inputmode="tel" maxlength="15" placeholder="5555 5555" autocomplete="tel" />
+            <div class="error-campo"></div>
+          </div>
+        </div>
+        <div class="error-campo" data-campo-error="contacto" style="margin-top:-8px;margin-bottom:10px"></div>
+
+        <div class="grid-2">
+          <div class="campo" data-campo="direccion" style="grid-column: span 1">
+            <label for="direccion">Dirección o referencia del lugar</label>
+            <input id="direccion" name="direccion" maxlength="200" placeholder="Ej. 5a avenida y 10 calle, frente al mercado" required />
+            <div class="error-campo"></div>
+          </div>
+          <div class="campo" data-campo="zona">
+            <label for="zona">Zona <span class="opcional">(opcional)</span></label>
+            <input id="zona" name="zona" inputmode="numeric" maxlength="2" placeholder="1" />
+            <div class="error-campo"></div>
+          </div>
+        </div>
+
+        <div class="campo" data-campo="descripcion">
+          <label for="descripcion">Describí el problema</label>
+          <textarea id="descripcion" name="descripcion" maxlength="2000" placeholder="¿Qué pasa? ¿Desde cuándo? ¿A quién afecta?" required></textarea>
+          <div class="ayuda"><span id="contador">0</span>/2000 caracteres (mínimo 20)</div>
+          <div class="error-campo"></div>
+        </div>
+
+        <div class="campo" data-campo="foto">
+          <label for="foto">Fotografía del problema</label>
+          <input id="foto" name="foto" type="file" accept="image/jpeg,image/png,image/webp" required />
+          <div class="ayuda">JPG, PNG o WEBP. Las fotos grandes se reducen automáticamente antes de enviarse.</div>
+          <div class="preview oculto" id="preview"><img alt="Vista previa de la fotografía" /><span class="ayuda" id="preview-info"></span></div>
+          <div class="error-campo"></div>
+        </div>
+
+        <button class="btn" type="submit" id="btn-enviar">Enviar reporte</button>
+      </form>
+    </section>
+
+    <!-- Confirmación -->
+    <section class="tarjeta oculto" id="seccion-ok" aria-live="polite">
+      <div class="alerta ok">Tu reporte fue registrado correctamente.</div>
+      <p>Guardá este número de folio para consultar el estado de tu reporte:</p>
+      <div class="folio" id="ok-folio"></div>
+      <dl class="datos" style="margin-top:14px">
+        <dt>Fecha</dt><dd id="ok-fecha"></dd>
+        <dt>Estado</dt><dd id="ok-estado"></dd>
+        <dt>Clasificado como</dt><dd id="ok-categoria"></dd>
+        <dt>Área responsable</dt><dd id="ok-area"></dd>
+      </dl>
+      <p style="margin-top:18px"><button class="btn secundario" id="btn-nuevo">Ingresar otro reporte</button></p>
+    </section>
+
+    <!-- Seguimiento -->
+    <section class="tarjeta">
+      <h2>Consultar estado de un reporte</h2>
+      <form id="form-seguimiento" style="display:flex;gap:10px;flex-wrap:wrap">
+        <input id="seg-folio" placeholder="Q-20261114-ABCDE" style="flex:1;min-width:200px" />
+        <button class="btn secundario" type="submit">Consultar</button>
+      </form>
+      <div id="seg-resultado" style="margin-top:14px"></div>
+    </section>
+  </main>
+
+  <script src="js/comun.js"></script>
+  <script src="js/portal.js"></script>
+</body>
+</html>
