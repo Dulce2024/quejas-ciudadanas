@@ -124,7 +124,7 @@ function resumenLista(r) {
 function createApp({ repo, auth, logger = console }) {
   const app = express();
   app.disable('x-powered-by');
-  app.set('trust proxy', 'loopback');
+  app.set('trust proxy', 1); // detrás del proxy del hosting (Render) para obtener la IP real
 
   app.use((_req, res, next) => {
     res.set('X-Content-Type-Options', 'nosniff');
