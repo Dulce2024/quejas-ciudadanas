@@ -13,9 +13,35 @@ const fs = require('fs');
 const path = require('path');
 const admin = require('firebase-admin');
 
+/**
+ * Lee el JSON de la cuenta de servicio desde una variable de entorno. Tolera los formatos que
+ * producen los paneles de hosting: comillas envolventes y saltos de línea reales o escapados
+ * dentro de la clave privada.
+ */
+function parsearJsonCredenciales(texto) {
+  let raw = String(texto).trim();
+  if ((raw.startsWith("'") && raw.endsWith("'")) || (raw.startsWith('"') && raw.endsWith('"') && !raw.startsWith('"{'))) {
+    raw = raw.slice(1, -1).trim();
+  }
+  if (raw.startsWith('"{')) raw = JSON.parse(raw); // JSON serializado como string
+  let k;
+  try {
+    k = JSON.parse(raw);
+  } catch {
+    // saltos de línea reales dentro de "private_key" no son JSON válido: se escapan
+    k = JSON.parse(raw.replace(/\r?\n/g, '\\n'));
+  }
+  if (typeof k.private_key === 'string') k.private_key = k.private_key.replace(/\\n/g, '\n');
+  return k;
+}
+
 function cargarCredenciales(cfg) {
   if (cfg.serviceAccountJson) {
-    return JSON.parse(cfg.serviceAccountJson);
+    try {
+      return parsearJsonCredenciales(cfg.serviceAccountJson);
+    } catch (e) {
+      throw new Error(`FIREBASE_SERVICE_ACCOUNT_JSON no es un JSON válido (${e.message})`);
+    }
   }
   if (cfg.serviceAccountPath) {
     const ruta = path.resolve(cfg.serviceAccountPath);
